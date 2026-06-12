@@ -1,0 +1,41 @@
+import pandas as pd
+import matplotlib.pyplot as plt
+
+# 1. 日本語の文字化け防止ライブラリ（事前に pip install japanize-matplotlib が必要です）
+try:
+    import japanize_matplotlib
+except ImportError:
+    # もしライブラリがない場合は、システム内の日本語フォントを指定するなどの代替措置をとります
+    plt.rcParams['font.family'] = 'Noto Sans CJK JP'  # 環境に合わせて変更してください
+
+# 2. CSVファイルを読み込む
+df = pd.read_csv('score.csv')
+
+# 3. グラフのサイズと階級（幅10点）の設定
+plt.figure(figsize=(8, 5))
+bins = list(range(0, 101, 10))  # [0, 10, 20, 30, ... 100]
+
+# 4. ヒストグラムの描画
+plt.hist(
+    df['テスト得点'], 
+    bins=bins, 
+    color='#3b82f6',      # スタイリッシュな青色
+    edgecolor='#ffffff',  # 棒の境界線を白にして見やすくする
+    rwidth=0.9            # 棒の幅を少し狭めて隙間を作る
+)
+
+# 5. タイトルと軸ラベルの設定（ご指定の条件）
+plt.title('テスト得点の分布', fontsize=16, pad=15, weight='bold')
+plt.xlabel('得点', fontsize=12, labelpad=10)
+plt.ylabel('人数', fontsize=12, labelpad=10)
+
+# 6. 目盛りの調整
+plt.xticks(bins)
+plt.xlim(-5, 105)
+
+# 7. グリッド線の追加（見やすさのためのアレンジ）
+plt.grid(axis='y', linestyle='--', alpha=0.5)
+
+# 8. グラフをきれいに整えて表示
+plt.tight_layout()
+plt.show()
