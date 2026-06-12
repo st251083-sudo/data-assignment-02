@@ -1,0 +1,23 @@
+import pandas as pd
+import matplotlib.pyplot as plt
+import japanize_matplotlib  # 日本語の文字化け防止用
+
+# 1. データの読み込み
+df = pd.read_csv('score.csv')
+
+# 2. 相関係数の計算（小数点以下第2位に丸める）
+corr_study = round(df['学習時間'].corr(df['テスト得点']), 2)
+corr_sleep = round(df['睡眠時間'].corr(df['テスト得点']), 2)
+
+print(f"学習時間とテスト得点の相関係数: {corr_study}")
+print(f"睡眠時間とテスト得点の相関係数: {corr_sleep}")
+
+# 4. 散布図2：睡眠時間 vs テスト得点
+plt.figure(figsize=(6, 4.5))
+plt.scatter(df['睡眠時間'], df['テスト得点'], color='#ef4444', alpha=0.8, edgecolor='w', s=50)
+plt.title('睡眠時間とテスト得点の関係', fontsize=14, pad=10, weight='bold')
+plt.xlabel('睡眠時間（時間）', fontsize=11)
+plt.ylabel('テスト得点（点）', fontsize=11)
+plt.grid(True, linestyle='--', alpha=0.5)
+plt.tight_layout()
+plt.show()
